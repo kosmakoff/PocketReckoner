@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/addPersonName"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/first_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:id="@+id/addPersonPhoneNumber"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/phone_number"
+        android:layout_below="@+id/addPersonName" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/addPersonEmail"
+        android:layout_below="@+id/addPersonPhoneNumber"
+        android:layout_alignParentLeft="true"
+        android:hint="@string/email" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:id="@+id/addPersonDoneButton"
+        android:layout_below="@+id/addPersonEmail"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/addPersonImageButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_emo_laugh" />
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">То на то и выходит</string>
+    <string name="settings">Настройки</string>
+    <string name="action_settings">Настройки</string>
+    <string name="people">Люди</string>
+    <string name="no_data">Нет данных</string>
+    <string name="add_person">Добавить человека</string>
+    <string name="first_name">Имя</string>
+    <string name="last_name">Фамилия</string>
+    <string name="phone_number">Телефон</string>
+    <string name="email">Email</string>
+    <string name="done">Готово</string>
+    <string name="take_photo">Сфотографировать</string>
+    <string name="browse_gallery">Выбрать из Галереи</string>
+    <string name="invalid_email">Неверный Email</string>
+    <string name="name_required">Имя обязательно</string>
+    <string name="clear_photo">Убрать фото</string>
+</resources>
