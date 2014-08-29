@@ -35,14 +35,6 @@
         android:layout_alignParentLeft="true"
         android:hint="@string/email" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/done"
-        android:id="@+id/addPersonDoneButton"
-        android:layout_below="@+id/addPersonEmail"
-        android:layout_centerHorizontal="true" />
-
     <ImageButton
         android:layout_width="100dp"
         android:layout_height="100dp"

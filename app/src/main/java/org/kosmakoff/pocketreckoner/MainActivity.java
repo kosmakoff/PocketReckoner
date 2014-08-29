@@ -117,7 +117,7 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.menu_item_add_person:
-                Intent addPersonIntent = new Intent(this, AddPersonActivity.class);
+                Intent addPersonIntent = new Intent(this, AddEditPersonActivity.class);
                 startActivityForResult(addPersonIntent, REQUEST_ADD_NEW_PERSON);
                 return true;
 

@@ -1,18 +1,17 @@
 package org.kosmakoff.pocketreckoner;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,13 +20,9 @@ import android.widget.Toast;
 
 import org.kosmakoff.pocketreckoner.data.PeopleRepository;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-public class AddPersonActivity extends Activity {
+public class AddEditPersonActivity extends Activity {
 
 //    static final int REQUEST_IMAGE_CAPTURE = 1;
 //    static final int REQUEST_IMAGE_PICK = 2;
@@ -35,7 +30,6 @@ public class AddPersonActivity extends Activity {
 
     private PeopleRepository peopleRepository;
 
-    private Button doneButton;
     private ImageButton imageButton;
 
     private EditText nameEditText;
@@ -44,29 +38,22 @@ public class AddPersonActivity extends Activity {
 
     private static Bitmap personBitmap;
 
-    private static Uri personImageUriOriginal;
-    private static Uri personImageUriCropped;
+    // private static Uri personImageUriOriginal;
+    // private static Uri personImageUriCropped;
 
-    private static ArrayList<Uri> urisToRemove = new ArrayList<Uri>();
+    // private static ArrayList<Uri> urisToRemove = new ArrayList<Uri>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_person);
+
+        setContentView(R.layout.activity_add_edit_person);
 
         personBitmap = null;
 
         peopleRepository = new PeopleRepository(this);
 
-        doneButton = (Button) findViewById(R.id.addPersonDoneButton);
         imageButton = (ImageButton) findViewById(R.id.addPersonImageButton);
-
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onDoneButtonClicked();
-            }
-        });
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +65,27 @@ public class AddPersonActivity extends Activity {
         nameEditText = (EditText) findViewById(R.id.addPersonName);
         phoneNumberEditText = (EditText) findViewById(R.id.addPersonPhoneNumber);
         emailEditText = (EditText) findViewById(R.id.addPersonEmail);
+
+        // custom action bar
+        final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View customActionBarView = inflater.inflate(
+                R.layout.actionbar_custom_view_done, null);
+        customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onDoneButtonClicked();
+                    }
+                });
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayOptions(
+                ActionBar.DISPLAY_SHOW_CUSTOM,
+                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME
+                        | ActionBar.DISPLAY_SHOW_TITLE);
+        actionBar.setCustomView(customActionBarView,
+                new ActionBar.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     @Override
