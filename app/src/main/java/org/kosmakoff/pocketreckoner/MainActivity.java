@@ -1,3 +1,27 @@
+/**
+ The MIT License (MIT)
+
+ Copyright (c) 2014 Oleg Kosmakov
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
+
 package org.kosmakoff.pocketreckoner;
 
 import android.content.Intent;
@@ -15,12 +39,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import org.kosmakoff.pocketreckoner.data.PeopleRepository;
+import org.kosmakoff.pocketreckoner.infrastructure.PersonEditor;
+
+public class MainActivity extends Activity implements PersonEditor {
+
+    static final int REQUEST_ADD_NEW_PERSON = 1;
+    static final int REQUEST_EDIT_PERSON = 2;
+
+    static final String LOG_TAG = "RECKONER";
 
     private final String KEY_SELECTED_TAB = "SELECTED TAB";
 
-    static final int REQUEST_ADD_NEW_PERSON = 1;
+    private PeopleRepository peopleRepository;
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -33,6 +66,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        peopleRepository = new PeopleRepository(this);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -53,7 +88,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-                selectItem(i);
+                selectMenuItem(i);
             }
         });
 
@@ -77,9 +112,9 @@ public class MainActivity extends Activity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey(KEY_SELECTED_TAB)) {
-            selectItem(0);
+            selectMenuItem(0);
         } else {
-            selectItem(savedInstanceState.getInt(KEY_SELECTED_TAB));
+            selectMenuItem(savedInstanceState.getInt(KEY_SELECTED_TAB));
         }
     }
 
@@ -117,8 +152,7 @@ public class MainActivity extends Activity {
                 return true;
 
             case R.id.menu_item_add_person:
-                Intent addPersonIntent = new Intent(this, AddEditPersonActivity.class);
-                startActivityForResult(addPersonIntent, REQUEST_ADD_NEW_PERSON);
+                startAddPersonActivity();
                 return true;
 
             default:
@@ -147,13 +181,13 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    private void selectItem(int position) {
+    private void selectMenuItem(int position) {
         DrawerMenuItem selectedItem = (DrawerMenuItem) mDrawerList.getAdapter()
                 .getItem(position);
         setTitle(selectedItem.getTitle());
         mDrawerList.setItemChecked(position, true);
 
-        Fragment fragmentToShow = null;
+        Fragment fragmentToShow;
 
         currentMenu = selectedItem.getMenuItemType();
 
@@ -161,11 +195,11 @@ public class MainActivity extends Activity {
             case PEOPLE:
                 fragmentToShow = new PeopleFragment();
 
-                Log.d(getString(R.string.app_name), "Showing people fragment");
+                Log.d(LOG_TAG, "Showing people fragment");
                 break;
             case SESSIONS:
                 fragmentToShow = new SessionsFragment();
-                Log.d(getString(R.string.app_name), "Showing sessions fragment");
+                Log.d(LOG_TAG, "Showing sessions fragment");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported menu item type: "
@@ -180,12 +214,45 @@ public class MainActivity extends Activity {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
+    private void startAddPersonActivity()
+    {
+        Intent addPersonIntent = new Intent(this, AddEditPersonActivity.class);
+        startActivityForResult(addPersonIntent, REQUEST_ADD_NEW_PERSON);
+    }
+
+    private void startEditPersonActivity(long personId)
+    {
+        Intent editPersonIntent = new Intent(this, AddEditPersonActivity.class);
+        editPersonIntent.putExtra("personId", personId);
+        startActivityForResult(editPersonIntent, REQUEST_EDIT_PERSON);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
         switch (requestCode) {
             case REQUEST_ADD_NEW_PERSON:
-                selectItem(0);
+                selectMenuItem(0);
+                Toast.makeText(this, R.string.person_added, Toast.LENGTH_SHORT).show();
+                break;
+            case REQUEST_EDIT_PERSON:
+                selectMenuItem(0);
+                Toast.makeText(this, R.string.person_updated, Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    public void startEditingPerson(long personId) {
+        startEditPersonActivity(personId);
+    }
+
+    @Override
+    public void deletePerson(long personId) {
+        peopleRepository.deletePerson(personId);
+        Toast.makeText(this, R.string.person_deleted, Toast.LENGTH_SHORT).show();
     }
 }

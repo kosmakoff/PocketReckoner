@@ -1,3 +1,27 @@
+/**
+ The MIT License (MIT)
+
+ Copyright (c) 2014 Oleg Kosmakov
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
+
 package org.kosmakoff.pocketreckoner.data;
 
 import java.io.ByteArrayOutputStream;
@@ -65,14 +89,7 @@ public class PeopleRepository {
         values.put("name", name);
         values.put("phone", phone);
         values.put("email", email);
-
-        if (photo != null) {
-
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] blob = stream.toByteArray();
-            values.put("photo", blob);
-        }
+        putPhotoIfNotNull(values, photo);
 
         long newId = db.insert("people", null, values);
 
@@ -83,7 +100,28 @@ public class PeopleRepository {
         return null;
     }
 
-    private Person getPerson(long id) {
+    public void updatePerson(long personId, String name, String phone, String email, Bitmap photo) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("phone", phone);
+        values.put("email", email);
+        putPhotoIfNotNull(values, photo);
+
+        db.update("people", values, "id = ?", new String[]{String.valueOf(personId)});
+    }
+
+    private void putPhotoIfNotNull(ContentValues cv, Bitmap photo) {
+        if (photo != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] blob = stream.toByteArray();
+            cv.put("photo", blob);
+        }
+    }
+
+    public Person getPerson(long id) {
         SQLiteDatabase db = null;
         Cursor c = null;
 
@@ -117,5 +155,10 @@ public class PeopleRepository {
                 db.close();
             }
         }
+    }
+
+    public void deletePerson(long personId) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.delete("people", "id = ?", new String[]{String.valueOf(personId)});
     }
 }

@@ -1,3 +1,27 @@
+/**
+ The MIT License (MIT)
+
+ Copyright (c) 2014 Oleg Kosmakov
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ */
+
 package org.kosmakoff.pocketreckoner;
 
 import android.app.ActionBar;
@@ -18,7 +42,10 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import junit.framework.Assert;
+
 import org.kosmakoff.pocketreckoner.data.PeopleRepository;
+import org.kosmakoff.pocketreckoner.data.Person;
 
 import java.util.ArrayList;
 
@@ -27,6 +54,8 @@ public class AddEditPersonActivity extends Activity {
 //    static final int REQUEST_IMAGE_CAPTURE = 1;
 //    static final int REQUEST_IMAGE_PICK = 2;
 //    static final int REQUEST_IMAGE_CROP = 3;
+
+    static final String LOG_TAG = "ADD_EDIT_PERSON";
 
     private PeopleRepository peopleRepository;
 
@@ -37,6 +66,8 @@ public class AddEditPersonActivity extends Activity {
     private EditText emailEditText;
 
     private static Bitmap personBitmap;
+
+    private long personId; // person Id as per DB
 
     // private static Uri personImageUriOriginal;
     // private static Uri personImageUriCropped;
@@ -50,9 +81,9 @@ public class AddEditPersonActivity extends Activity {
         setContentView(R.layout.activity_add_edit_person);
 
         personBitmap = null;
-
         peopleRepository = new PeopleRepository(this);
 
+        // mapping controls
         imageButton = (ImageButton) findViewById(R.id.addPersonImageButton);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +101,7 @@ public class AddEditPersonActivity extends Activity {
         final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_custom_view_done, null);
+
         customActionBarView.findViewById(R.id.actionbar_done).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -77,6 +109,13 @@ public class AddEditPersonActivity extends Activity {
                         onDoneButtonClicked();
                     }
                 });
+        customActionBarView.findViewById(R.id.actionbar_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancelButtonClicked();
+            }
+        });
+
         final ActionBar actionBar = getActionBar();
         actionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM,
@@ -86,6 +125,25 @@ public class AddEditPersonActivity extends Activity {
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
+
+        // loading data for edit person intent
+        Intent intent = getIntent();
+        personId = intent.getLongExtra("personId", 0);
+
+        if (personId != 0) {
+            // if person was passed - it's Edit action
+            Log.d(LOG_TAG, "Loading person with Id=" + personId);
+            Person person = peopleRepository.getPerson(personId);
+            if (person == null)
+                throw new NullPointerException("No person found with Id=" + personId);
+
+            nameEditText.setText(person.getName());
+            emailEditText.setText(person.getEmail());
+            phoneNumberEditText.setText(person.getPhone());
+        } else {
+            // it's new action, so nothing to do here
+            Log.d(LOG_TAG, "Adding new person");
+        }
     }
 
     @Override
@@ -101,35 +159,44 @@ public class AddEditPersonActivity extends Activity {
             String phoneNumber = phoneNumberEditText.getText().toString().trim();
             String email = emailEditText.getText().toString().trim();
 
-            peopleRepository.addPerson(name, phoneNumber, email, personBitmap);
+            if (personId == 0) {
+                // saving new person
+                peopleRepository.addPerson(name, phoneNumber, email, personBitmap);
+            } else {
+                peopleRepository.updatePerson(personId, name, phoneNumber, email, personBitmap);
+            }
 
             setResult(RESULT_OK);
             finish();
-
-            return;
         }
+    }
+
+    private void onCancelButtonClicked() {
+        setResult(RESULT_CANCELED);
+        finish();
     }
 
     private boolean validate() {
 
-        boolean hasError = false;
+        return validateName() && validateEmail();
+    }
 
-        // validating name
+    private boolean validateName() {
         String name = nameEditText.getText().toString().trim();
         if (name.trim().isEmpty()) {
             nameEditText.setError(getString(R.string.name_required));
-            hasError = true;
+            return false;
         }
+        return true;
+    }
 
-        // validating email
+    private boolean validateEmail() {
         String email = emailEditText.getText().toString();
-
         if (!email.trim().isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError(getString(R.string.invalid_email));
-            hasError = true;
+            return false;
         }
-
-        return !hasError;
+        return true;
     }
 
     private void onImageButtonClicked(View view) {
@@ -175,7 +242,7 @@ public class AddEditPersonActivity extends Activity {
     }
 
     private void handleClearPhotoMenuItem() {
-        Log.d("Add Person", "Clear photo");
+        Log.d(LOG_TAG, "Clear photo");
 
         Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
 
@@ -184,7 +251,7 @@ public class AddEditPersonActivity extends Activity {
     }
 
     private void handleTakePhotoMenuItem() {
-        Log.d("Add Person", "Taking photo");
+        Log.d(LOG_TAG, "Taking photo");
 
         Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
 
@@ -206,7 +273,7 @@ public class AddEditPersonActivity extends Activity {
     }
 
     private void handleBrowseGalleryMenuItem() {
-        Log.d("Add Person", "Browse gallery");
+        Log.d(LOG_TAG, "Browse gallery");
 
         Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
 

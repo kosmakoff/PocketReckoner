@@ -22,16 +22,9 @@
  THE SOFTWARE.
  */
 
-package org.kosmakoff.pocketreckoner;
+package org.kosmakoff.pocketreckoner.infrastructure;
 
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-
-public class SettingsFragment extends PreferenceFragment {
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.settings);
-	}
+public interface PersonEditor {
+    public void startEditingPerson(long personId);
+    public void deletePerson(long personId);
 }

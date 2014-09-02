@@ -24,13 +24,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionbar_cancel"
+    style="?android:actionButtonStyle"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_settings"
-        android:icon="@android:drawable/ic_menu_preferences" />
-
-</menu>
+    <TextView
+        style="?android:actionBarTabTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_action_cancel"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="20dp"
+        android:text="@string/cancel" />
+</FrameLayout>
