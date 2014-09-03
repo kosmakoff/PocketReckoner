@@ -70,6 +70,8 @@ public class PeopleFragment extends ListFragment
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "Activity created");
+
         super.onActivityCreated(savedInstanceState);
         ArrayList<Person> people = peopleRepository.getPeople();
         PeopleAdapter adapter = new PeopleAdapter(getActivity(), people);
@@ -83,7 +85,6 @@ public class PeopleFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         peopleRepository = new PeopleRepository(getActivity());
-
         return inflater.inflate(R.layout.fragment_people, null);
     }
 

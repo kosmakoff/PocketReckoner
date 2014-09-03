@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,6 +99,7 @@ public class AddEditPersonActivity extends Activity {
         emailEditText = (EditText) findViewById(R.id.addPersonEmail);
 
         // custom action bar
+        /*
         final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
                 R.layout.actionbar_custom_view_done, null);
@@ -125,6 +127,9 @@ public class AddEditPersonActivity extends Activity {
                 new ActionBar.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
+        */
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // loading data for edit person intent
         Intent intent = getIntent();
@@ -147,8 +152,33 @@ public class AddEditPersonActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.default_save_actions, menu);
+
+        if (personId != 0) {
+            MenuItem deleteMenuItem = menu.add(0, R.id.menu_item_delete, 0, R.string.delete);
+            deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            case R.id.menu_cancel:
+                onCancelButtonClicked();
+                return true;
+            case R.id.menu_done:
+                onDoneButtonClicked();
+                return true;
+            case R.id.menu_item_delete:
+                onDeleteButtonClicked();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void onDoneButtonClicked() {
@@ -167,6 +197,19 @@ public class AddEditPersonActivity extends Activity {
             }
 
             setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    private void onDeleteButtonClicked() {
+        if (personId != 0) {
+            peopleRepository.deletePerson(personId);
+
+            Intent postDeleteIntent = new Intent();
+            postDeleteIntent.putExtra("result", "deleted");
+
+            setResult(RESULT_OK, postDeleteIntent);
+
             finish();
         }
     }

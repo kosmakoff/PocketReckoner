@@ -25,40 +25,46 @@
 package org.kosmakoff.pocketreckoner;
 
 import android.app.Activity;
-import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import org.kosmakoff.pocketreckoner.R;
 import org.kosmakoff.pocketreckoner.data.ReckoningSessionRepository;
 
-public class SessionsFragment extends ListFragment {
+public class AddEditReckoningSessionActivity extends Activity {
 
-    final static String LOG_TAG = "SESSIONS_FRAGMENT";
+    static final String LOG_TAG = "ADD_EDIT_SESSION";
 
-    private ReckoningSessionRepository sessionsRepository;
+    private ReckoningSessionRepository sessionRepository;
 
-    public SessionsFragment() {
+    private long sessionId;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setContentView(R.layout.activity_add_edit_session);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.default_save_actions, menu);
+        MenuItem deleteMenuItem = menu.add(0, 100500, 0, "DELETE");
+        deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        return true;
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d(LOG_TAG, "Activity created");
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        sessionsRepository = new ReckoningSessionRepository(getActivity());
-        return inflater.inflate(R.layout.fragment_sessions, container, false);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -56,6 +56,9 @@ THE SOFTWARE.
         <activity
             android:name=".AddEditPersonActivity"
             android:label="@string/add_person" />
+        <activity
+            android:name=".AddEditReckoningSessionActivity"
+            android:label="@string/add_session" />
     </application>
 
 </manifest>

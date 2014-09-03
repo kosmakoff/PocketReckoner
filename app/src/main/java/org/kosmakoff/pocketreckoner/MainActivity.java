@@ -48,6 +48,8 @@ public class MainActivity extends Activity implements PersonEditor {
 
     static final int REQUEST_ADD_NEW_PERSON = 1;
     static final int REQUEST_EDIT_PERSON = 2;
+    static final int REQUEST_ADD_NEW_SESSION = 3;
+    static final int REQUEST_EDIT_SESSION = 4;
 
     static final String LOG_TAG = "RECKONER";
 
@@ -146,13 +148,17 @@ public class MainActivity extends Activity implements PersonEditor {
         }
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.menu_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
 
             case R.id.menu_item_add_person:
                 startAddPersonActivity();
+                return true;
+
+            case R.id.menu_item_add_session:
+                startAddSessionActivity();
                 return true;
 
             default:
@@ -167,12 +173,16 @@ public class MainActivity extends Activity implements PersonEditor {
 
         switch (currentMenu) {
             case PEOPLE:
-                MenuItem addPerson = menu.add(Menu.NONE, R.id.menu_item_add_person,
+                MenuItem addPersonMenuItem = menu.add(Menu.NONE, R.id.menu_item_add_person,
                         10, R.string.add_person);
-                addPerson.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-                addPerson.setIcon(R.drawable.ic_social_add_person);
+                addPersonMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                addPersonMenuItem.setIcon(R.drawable.ic_social_add_person);
                 break;
             case SESSIONS:
+                MenuItem addSessionMenuItem = menu.add(Menu.NONE, R.id.menu_item_add_session,
+                        10, R.string.add_session);
+                addSessionMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                addSessionMenuItem.setIcon(R.drawable.ic_action_new);
                 break;
             default:
                 break;
@@ -214,17 +224,20 @@ public class MainActivity extends Activity implements PersonEditor {
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    private void startAddPersonActivity()
-    {
+    private void startAddPersonActivity() {
         Intent addPersonIntent = new Intent(this, AddEditPersonActivity.class);
         startActivityForResult(addPersonIntent, REQUEST_ADD_NEW_PERSON);
     }
 
-    private void startEditPersonActivity(long personId)
-    {
+    private void startEditPersonActivity(long personId) {
         Intent editPersonIntent = new Intent(this, AddEditPersonActivity.class);
         editPersonIntent.putExtra("personId", personId);
         startActivityForResult(editPersonIntent, REQUEST_EDIT_PERSON);
+    }
+
+    private void startAddSessionActivity() {
+        Intent addSessionIntent = new Intent(this, AddEditReckoningSessionActivity.class);
+        startActivityForResult(addSessionIntent, REQUEST_ADD_NEW_SESSION);
     }
 
     @Override
@@ -240,7 +253,12 @@ public class MainActivity extends Activity implements PersonEditor {
                 break;
             case REQUEST_EDIT_PERSON:
                 selectMenuItem(0);
-                Toast.makeText(this, R.string.person_updated, Toast.LENGTH_SHORT).show();
+
+                if (data!= null && data.getStringExtra("result").equals("deleted")) {
+                    Toast.makeText(this, R.string.person_deleted, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.person_updated, Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

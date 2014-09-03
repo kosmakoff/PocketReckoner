@@ -82,7 +82,7 @@ public class PeopleRepository {
         return people;
     }
 
-    public Person addPerson(String name, String phone, String email, Bitmap photo) {
+    public long addPerson(String name, String phone, String email, Bitmap photo) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -93,11 +93,7 @@ public class PeopleRepository {
 
         long newId = db.insert("people", null, values);
 
-        if (newId != -1) {
-            return getPerson(newId);
-        }
-
-        return null;
+        return newId;
     }
 
     public void updatePerson(long personId, String name, String phone, String email, Bitmap photo) {

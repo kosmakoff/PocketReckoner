@@ -29,8 +29,10 @@ THE SOFTWARE.
     <string name="settings">Настройки</string>
     <string name="action_settings">Настройки</string>
     <string name="people">Люди</string>
+    <string name="sessions">Сессии</string>
     <string name="no_data">Нет данных</string>
     <string name="add_person">Добавить человека</string>
+    <string name="add_session">Добавить сессию</string>
     <string name="first_name">Имя</string>
     <string name="last_name">Фамилия</string>
     <string name="phone_number">Телефон</string>

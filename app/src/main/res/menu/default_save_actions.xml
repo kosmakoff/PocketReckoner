@@ -24,8 +24,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
 
-<resources>
-    <item name="menu_item_add_person" type="id" />
-    <item name="menu_item_add_session" type="id" />
-    <item name="menu_item_delete" type="id" />
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_cancel"
+        android:icon="@drawable/ic_action_cancel"
+        android:title="@string/cancel"
+        android:showAsAction="always|withText"/>
+    <item android:id="@+id/menu_done"
+        android:icon="@drawable/ic_action_done"
+        android:title="@string/done"
+        android:showAsAction="always|withText"/>
+</menu>
