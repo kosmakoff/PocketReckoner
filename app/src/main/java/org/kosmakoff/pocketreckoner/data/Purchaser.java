@@ -26,8 +26,8 @@ package org.kosmakoff.pocketreckoner.data;
 
 public class Purchaser {
     private int id;
-    private int billable_item_id;
-    private int person_id;
+    private int billableItemId;
+    private int personId;
     private int part;
 
     public int getId() {
@@ -38,20 +38,20 @@ public class Purchaser {
         this.id = id;
     }
 
-    public int getBillable_item_id() {
-        return billable_item_id;
+    public int getBillableItemId() {
+        return billableItemId;
     }
 
-    public void setBillable_item_id(int billable_item_id) {
-        this.billable_item_id = billable_item_id;
+    public void setBillableItemId(int billableItemId) {
+        this.billableItemId = billableItemId;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public int getPart() {

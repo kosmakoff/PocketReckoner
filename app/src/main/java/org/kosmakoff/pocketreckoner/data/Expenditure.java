@@ -28,9 +28,9 @@ import java.math.BigDecimal;
 
 public class Expenditure {
     private int id;
-    private int billable_item_id;
-    private int person_id;
-    private int price_raw;
+    private int billableItemId;
+    private int personId;
+    private int priceRaw;
 
     public int getId() {
         return id;
@@ -40,28 +40,28 @@ public class Expenditure {
         this.id = id;
     }
 
-    public int getBillable_item_id() {
-        return billable_item_id;
+    public int getBillableItemId() {
+        return billableItemId;
     }
 
-    public void setBillable_item_id(int billable_item_id) {
-        this.billable_item_id = billable_item_id;
+    public void setBillableItemId(int billableItemId) {
+        this.billableItemId = billableItemId;
     }
 
-    public int getPerson_id() {
-        return person_id;
+    public int getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(int person_id) {
-        this.person_id = person_id;
+    public void setPersonId(int personId) {
+        this.personId = personId;
     }
 
     public BigDecimal getPrice() {
-        return BigDecimal.valueOf(price_raw / 1000);
+        return BigDecimal.valueOf(priceRaw / 1000);
     }
 
     public void setPrice(BigDecimal price) {
         BigDecimal bd = price.multiply(new BigDecimal(1000));
-        this.price_raw =  bd.intValue();
+        this.priceRaw =  bd.intValue();
     }
 }

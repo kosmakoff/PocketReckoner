@@ -32,6 +32,7 @@ THE SOFTWARE.
     <string name="sessions">Сессии</string>
     <string name="no_data">Нет данных</string>
     <string name="add_person">Добавить человека</string>
+    <string name="edit_person">Редактировать человека</string>
     <string name="add_session">Добавить сессию</string>
     <string name="first_name">Имя</string>
     <string name="last_name">Фамилия</string>
@@ -49,4 +50,9 @@ THE SOFTWARE.
     <string name="photo">Фото</string>
     <string name="delete">Удалить</string>
     <string name="person_deleted">Личность удалена</string>
+    <string name="description">Описание</string>
+    <string name="purchased_things">Покупки</string>
+    <string name="buyers">Покупатели</string>
+    <string name="drawer_close">Закрыть лоток</string>
+    <string name="drawer_open">Открыть лоток</string>
 </resources>

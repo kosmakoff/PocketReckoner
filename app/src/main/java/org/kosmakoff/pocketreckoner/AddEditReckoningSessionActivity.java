@@ -25,6 +25,7 @@
 package org.kosmakoff.pocketreckoner;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,16 +45,27 @@ public class AddEditReckoningSessionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_add_edit_session);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_add_edit_session);
+        Intent intent = getIntent();
+        sessionId = intent.getIntExtra("sessionId", 0);
+
+        if (sessionId != 0) {
+
+        } else {
+
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.default_save_actions, menu);
-        MenuItem deleteMenuItem = menu.add(0, 100500, 0, "DELETE");
+
+        MenuItem deleteMenuItem = menu.add(0, R.id.menu_item_delete, 0, R.string.delete);
         deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
         return true;
     }
 
