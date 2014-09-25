@@ -22,47 +22,30 @@
  THE SOFTWARE.
  */
 
-package org.kosmakoff.pocketreckoner.data;
+package org.kosmakoff.pocketreckoner;
 
-public class Purchaser {
-    private int id;
-    private int billableItemId;
-    private int personId;
-    private int part;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
-    public int getId() {
-        return id;
+public class ChecksAdapter extends BaseAdapter {
+    @Override
+    public int getCount() {
+        return 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public Object getItem(int i) {
+        return null;
     }
 
-    public int getBillableItemId() {
-        return billableItemId;
+    @Override
+    public long getItemId(int i) {
+        return 0;
     }
 
-    public void setBillableItemId(int billableItemId) {
-        this.billableItemId = billableItemId;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(int personId) {
-        this.personId = personId;
-    }
-
-    public int getPart() {
-        return part;
-    }
-
-    public void setPart(int part) {
-        this.part = part;
-    }
-
-    private Purchaser() {
-        this.part = 1;
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        return null;
     }
 }

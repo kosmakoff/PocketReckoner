@@ -32,15 +32,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.kosmakoff.pocketreckoner.data.ReckoningSessionRepository;
+import org.kosmakoff.pocketreckoner.data.ChecksRepository;
 
-public class SessionsFragment extends ListFragment {
+public class ChecksFragment extends ListFragment {
 
-    final static String LOG_TAG = "SESSIONS_FRAGMENT";
+    final static String LOG_TAG = "CHECKS_FRAGMENT";
 
-    private ReckoningSessionRepository sessionsRepository;
+    private ChecksRepository checksRepository;
 
-    public SessionsFragment() {
+    public ChecksFragment() {
 
     }
 
@@ -58,7 +58,7 @@ public class SessionsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        sessionsRepository = new ReckoningSessionRepository(getActivity());
-        return inflater.inflate(R.layout.fragment_sessions, container, false);
+        checksRepository = new ChecksRepository(getActivity());
+        return inflater.inflate(R.layout.fragment_checks, container, false);
     }
 }

@@ -31,33 +31,37 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ReckoningSessionRepository {
+public class ChecksRepository {
     private ReckonerDbHelper helper;
 
-    public ReckoningSessionRepository(Context context) {
+    public ChecksRepository(Context context) {
         helper = new ReckonerDbHelper(context);
     }
 
     // getters
-    public ArrayList<ReckoningSession> getSessions(Date from, Date to) {
+    public ArrayList<Check> getChecks(Date from, Date to) {
         return null;
     }
 
-    public ArrayList<BillableItem> getBillableItems(int sessionId) {
+    public Check getCheck(long checkId) {
         return null;
     }
 
-    public ArrayList<Expenditure> getExpenditures(int billableItemId) {
+    public ArrayList<CheckItem> getCheckItems(long checkId) {
         return null;
     }
 
-    public ArrayList<Purchaser> getPurchasers(int billableItemId) {
+    public ArrayList<Payer> getPayers(long checkItemId) {
+        return null;
+    }
+
+    public ArrayList<Buyer> getBuyers(long checkItemId) {
         return null;
     }
 
     // setters
-    // session
-    public long addNewSession(String description) {
+    // check
+    public long getNewCheck(String description) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         Date date = new Date();
@@ -67,12 +71,12 @@ public class ReckoningSessionRepository {
         values.put("date_created", date.getTime());
         values.put("date_modified", date.getTime());
 
-        long newId = db.insert("reckoning_sessions", null, values);
+        long newId = db.insert("checks", null, values);
 
         return newId;
     }
 
-    public void updateSessionDescription(int sessionId, String description) {
+    public void updateCheckDescription(int checkId, String description) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         Date date = new Date();
@@ -81,10 +85,10 @@ public class ReckoningSessionRepository {
         values.put("description", description);
         values.put("date_modified", date.getTime());
 
-        db.update("reckoning_sessions", values, "id = ?", new String[]{String.valueOf(sessionId)});
+        db.update("checks", values, "id = ?", new String[]{String.valueOf(checkId)});
     }
 
-    public void updateSessionDate(int sessionId) {
+    public void updateCheckDate(int checkId) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         Date date = new Date();
@@ -92,6 +96,6 @@ public class ReckoningSessionRepository {
         ContentValues values = new ContentValues();
         values.put("date_modified", date.getTime());
 
-        db.update("reckoning_sessions", values, "id = ?", new String[]{String.valueOf(sessionId)});
+        db.update("checks", values, "id = ?", new String[]{String.valueOf(checkId)});
     }
 }

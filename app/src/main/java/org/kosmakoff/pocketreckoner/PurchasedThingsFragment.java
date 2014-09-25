@@ -22,10 +22,9 @@
  THE SOFTWARE.
  */
 
-package org.kosmakoff.pocketreckoner.infrastructure;
+package org.kosmakoff.pocketreckoner;
 
-public interface PersonEditor {
-    public void startEditingPerson(long personId);
-    public void deletePerson(long personId);
+import android.app.ListFragment;
 
+public class PurchasedThingsFragment extends ListFragment {
 }

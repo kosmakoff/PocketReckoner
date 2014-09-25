@@ -48,8 +48,8 @@ public class MainActivity extends Activity implements PersonEditor {
 
     static final int REQUEST_ADD_NEW_PERSON = 1;
     static final int REQUEST_EDIT_PERSON = 2;
-    static final int REQUEST_ADD_NEW_SESSION = 3;
-    static final int REQUEST_EDIT_SESSION = 4;
+    static final int REQUEST_ADD_NEW_CHECK = 3;
+    static final int REQUEST_EDIT_CHECK = 4;
 
     static final String LOG_TAG = "RECKONER";
 
@@ -80,8 +80,8 @@ public class MainActivity extends Activity implements PersonEditor {
                 new DrawerMenuItem(DrawerMenuItemType.PEOPLE,
                         getString(R.string.people),
                         R.drawable.ic_action_emo_laugh),
-                new DrawerMenuItem(DrawerMenuItemType.SESSIONS,
-                        getString(R.string.sessions),
+                new DrawerMenuItem(DrawerMenuItemType.CHECKS,
+                        getString(R.string.checks),
                         R.drawable.ic_action_calculator)};
 
         mDrawerList.setAdapter(new DrawerMenuItemsAdapter(this, items));
@@ -157,8 +157,8 @@ public class MainActivity extends Activity implements PersonEditor {
                 startAddPersonActivity();
                 return true;
 
-            case R.id.menu_item_add_session:
-                startAddSessionActivity();
+            case R.id.menu_item_add_check:
+                startAddCheckActivity();
                 return true;
 
             default:
@@ -178,11 +178,11 @@ public class MainActivity extends Activity implements PersonEditor {
                 addPersonMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
                 addPersonMenuItem.setIcon(R.drawable.ic_social_add_person);
                 break;
-            case SESSIONS:
-                MenuItem addSessionMenuItem = menu.add(Menu.NONE, R.id.menu_item_add_session,
-                        10, R.string.add_session);
-                addSessionMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
-                addSessionMenuItem.setIcon(R.drawable.ic_action_new);
+            case CHECKS:
+                MenuItem addCheckMenuItem = menu.add(Menu.NONE, R.id.menu_item_add_check,
+                        10, R.string.add_check);
+                addCheckMenuItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                addCheckMenuItem.setIcon(R.drawable.ic_action_new);
                 break;
             default:
                 break;
@@ -207,9 +207,9 @@ public class MainActivity extends Activity implements PersonEditor {
 
                 Log.d(LOG_TAG, "Showing people fragment");
                 break;
-            case SESSIONS:
-                fragmentToShow = new SessionsFragment();
-                Log.d(LOG_TAG, "Showing sessions fragment");
+            case CHECKS:
+                fragmentToShow = new ChecksFragment();
+                Log.d(LOG_TAG, "Showing checks fragment");
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported menu item type: "
@@ -235,9 +235,9 @@ public class MainActivity extends Activity implements PersonEditor {
         startActivityForResult(editPersonIntent, REQUEST_EDIT_PERSON);
     }
 
-    private void startAddSessionActivity() {
-        Intent addSessionIntent = new Intent(this, AddEditReckoningSessionActivity.class);
-        startActivityForResult(addSessionIntent, REQUEST_ADD_NEW_SESSION);
+    private void startAddCheckActivity() {
+        Intent addCheckIntent = new Intent(this, AddEditCheckActivity.class);
+        startActivityForResult(addCheckIntent, REQUEST_ADD_NEW_CHECK);
     }
 
     @Override

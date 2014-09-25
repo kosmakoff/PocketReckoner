@@ -29,11 +29,13 @@ THE SOFTWARE.
     <string name="settings">Настройки</string>
     <string name="action_settings">Настройки</string>
     <string name="people">Люди</string>
-    <string name="sessions">Сессии</string>
+    <string name="checks">Сессии</string>
     <string name="no_data">Нет данных</string>
     <string name="add_person">Добавить человека</string>
     <string name="edit_person">Редактировать человека</string>
-    <string name="add_session">Добавить сессию</string>
+    <string name="add_check">Добавить чек</string>
+    <string name="new_check">Новый чек</string>
+    <string name="update_check">Обновить чек</string>
     <string name="first_name">Имя</string>
     <string name="last_name">Фамилия</string>
     <string name="phone_number">Телефон</string>
@@ -55,4 +57,7 @@ THE SOFTWARE.
     <string name="buyers">Покупатели</string>
     <string name="drawer_close">Закрыть лоток</string>
     <string name="drawer_open">Открыть лоток</string>
+    <string name="no_things_added">Покупки не добавлены</string>
+    <string name="add_thing">Добавить покупку</string>
+    <string name="add">Добавить</string>
 </resources>

@@ -24,49 +24,59 @@
 
 package org.kosmakoff.pocketreckoner;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.kosmakoff.pocketreckoner.R;
-import org.kosmakoff.pocketreckoner.data.ReckoningSessionRepository;
+import org.kosmakoff.pocketreckoner.data.CheckItem;
+import org.kosmakoff.pocketreckoner.data.Check;
+import org.kosmakoff.pocketreckoner.data.ChecksRepository;
 
-public class AddEditReckoningSessionActivity extends Activity {
+import java.util.ArrayList;
 
-    static final String LOG_TAG = "ADD_EDIT_SESSION";
+public class AddEditCheckActivity extends ListActivity {
 
-    private ReckoningSessionRepository sessionRepository;
+    static final String LOG_TAG = "ADD_EDIT_CHECK";
 
-    private long sessionId;
+    private ChecksRepository checksRepository;
+
+    private long checkId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_add_edit_session);
+        checksRepository = new ChecksRepository(this);
 
+        setContentView(R.layout.activity_add_edit_check);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // setting up purchased things
+
         Intent intent = getIntent();
-        sessionId = intent.getIntExtra("sessionId", 0);
+        checkId = intent.getLongExtra("checkId", 0);
 
-        if (sessionId != 0) {
+        if (checkId != 0) {
+            Check check = checksRepository.getCheck(checkId);
+            if (check == null)
+                throw new NullPointerException("No check found with id = " + checkId);
 
+            // loading occurs here
+            getActionBar().setTitle(R.string.update_check);
         } else {
-
+            getActionBar().setTitle(R.string.new_check);
         }
+
+        // setting adapter now
+        ArrayList<CheckItem> checkItems = checksRepository.getCheckItems(checkId);
+        setListAdapter(new CheckItemsAdapter(this, checkItems));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.default_save_actions, menu);
-
-        MenuItem deleteMenuItem = menu.add(0, R.id.menu_item_delete, 0, R.string.delete);
-        deleteMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
-        return true;
+        return false;
     }
 
     @Override

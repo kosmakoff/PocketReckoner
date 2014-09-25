@@ -31,7 +31,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ReckonerDbHelper extends SQLiteOpenHelper {
 
     public ReckonerDbHelper(Context context) {
-        super(context, "reckonerDb", null, 3);
+        super(context, "reckonerDb", null, 1);
     }
 
     @Override
@@ -56,43 +56,43 @@ public class ReckonerDbHelper extends SQLiteOpenHelper {
                 "photo blob);";
         db.execSQL(sql);
 
-        // create reckoning sessions table
-        // reckoning_sessions(description)
-        sql = "create table reckoning_sessions(" +
+        // create checks table
+        // checks(description)
+        sql = "create table checks(" +
                 "id integer primary key autoincrement," +
                 "description text," +
                 "date_created integer," +
                 "date_modified integer)";
         db.execSQL(sql);
 
-        // create billable items table
-        // billable_items(reckoning_session_id, description)
-        sql = "create table billable_items (" +
+        // create check items table
+        // check_items(check_id, description)
+        sql = "create table check_items (" +
                 "id integer primary key autoincrement," +
-                "reckoning_session_id integer," +
+                "check_id integer," +
                 "description text," +
-                "foreign key (reckoning_session_id) references reckoning_sessions(id));";
+                "foreign key (check_id) references checks(id));";
         db.execSQL(sql);
 
-        // create expenditures table
-        // expenditures(billable_item_id, person_id, price)
-        sql = "create table expenditures (" +
+        // create payers table
+        // payers(check_item_id, person_id, price)
+        sql = "create table payers (" +
                 "id integer primary key autoincrement," +
-                "billable_item_id integer," +
+                "check_item_id integer," +
                 "person_id integer," +
                 "price integer," +
-                "foreign key (billable_item_id) references billable_items(id)," +
+                "foreign key (check_item_id) references check_items(id)," +
                 "foreign key (person_id) references people(id));";
         db.execSQL(sql);
 
-        // create purchasers table
-        // purchasers(billable_item_id,person_id,part)
-        sql = "create table purchasers (" +
+        // create buyers table
+        // buyers(check_item_id,person_id,part)
+        sql = "create table buyers (" +
                 "id integer primary key autoincrement," +
-                "billable_item_id integer," +
+                "check_item_id integer," +
                 "person_id integer," +
                 "part integer," +
-                "foreign key (billable_item_id) references billable_items(id)," +
+                "foreign key (check_item_id) references check_items(id)," +
                 "foreign key (person_id) references people(id));";
         db.execSQL(sql);
     }
@@ -103,60 +103,9 @@ public class ReckonerDbHelper extends SQLiteOpenHelper {
 
         for (int i = prevVersion; i < curVersion; i++) {
             switch (i) {
-                case 1:
-                    upgrade001to002(db);
-                    break;
-                case 2:
-                    upgrade002to003(db);
+                default:
                     break;
             }
         }
-    }
-
-    private void upgrade001to002(SQLiteDatabase db) {
-        String sql = "alter table people add column photo blob;";
-        db.execSQL(sql);
-    }
-
-    private void upgrade002to003(SQLiteDatabase db) {
-        // create reckoning sessions table
-        // reckoning_sessions(description)
-        String sql = "create table reckoning_sessions(" +
-                "id integer primary key autoincrement," +
-                "description text," +
-                "date_created integer," +
-                "date_modified integer)";
-        db.execSQL(sql);
-
-        // create billable items table
-        // billable_items(description)
-        sql = "create table billable_items (" +
-                "id integer primary key autoincrement," +
-                "reckoning_session_id integer," +
-                "description text," +
-                "foreign key (reckoning_session_id) references reckoning_sessions(id));";
-        db.execSQL(sql);
-
-        // create expenditures table
-        // expenditures(billable_item_id, person_id, price)
-        sql = "create table expenditures (" +
-                "id integer primary key autoincrement," +
-                "billable_item_id integer," +
-                "person_id integer," +
-                "price integer," +
-                "foreign key (billable_item_id) references billable_items(id)," +
-                "foreign key (person_id) references people(id));";
-        db.execSQL(sql);
-
-        // create purchasers table
-        // purchasers(billable_item_id,person_id,part)
-        sql = "create table purchasers (" +
-                "id integer primary key autoincrement," +
-                "billable_item_id integer," +
-                "person_id integer," +
-                "part integer," +
-                "foreign key (billable_item_id) references billable_items(id)," +
-                "foreign key (person_id) references people(id));";
-        db.execSQL(sql);
     }
 }

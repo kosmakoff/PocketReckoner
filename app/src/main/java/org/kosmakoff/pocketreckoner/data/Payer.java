@@ -22,10 +22,46 @@
  THE SOFTWARE.
  */
 
-package org.kosmakoff.pocketreckoner.infrastructure;
+package org.kosmakoff.pocketreckoner.data;
 
-public interface PersonEditor {
-    public void startEditingPerson(long personId);
-    public void deletePerson(long personId);
+import java.math.BigDecimal;
 
+public class Payer {
+    private int id;
+    private int checkItemId;
+    private int personId;
+    private int priceRaw;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCheckItemId() {
+        return checkItemId;
+    }
+
+    public void setCheckItemId(int checkItemId) {
+        this.checkItemId = checkItemId;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public BigDecimal getPrice() {
+        return BigDecimal.valueOf(priceRaw / 1000);
+    }
+
+    public void setPrice(BigDecimal price) {
+        BigDecimal bd = price.multiply(new BigDecimal(1000));
+        this.priceRaw =  bd.intValue();
+    }
 }

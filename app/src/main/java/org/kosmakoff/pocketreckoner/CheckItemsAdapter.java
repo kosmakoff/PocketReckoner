@@ -24,53 +24,48 @@
 
 package org.kosmakoff.pocketreckoner;
 
-import java.util.ArrayList;
-
-import org.kosmakoff.pocketreckoner.data.Person;
-
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class PeopleAdapter extends BaseAdapter {
+import org.kosmakoff.pocketreckoner.data.CheckItem;
+
+import java.util.ArrayList;
+
+public class CheckItemsAdapter extends BaseAdapter {
+
     public Context getContext() {
         return context;
     }
 
-    public ArrayList<Person> getPeople() {
-        return people;
-    }
-
     private final Context context;
+    private final ArrayList<CheckItem> checkItems;
 
-    private ArrayList<Person> people;
-
-    public PeopleAdapter(Context context, ArrayList<Person> people) {
+    public CheckItemsAdapter(Context context, ArrayList<CheckItem> checkItems) {
         this.context = context;
-        this.people = people;
+        this.checkItems = checkItems;
     }
 
     @Override
     public int getCount() {
-        return people.size();
+        return 0;
     }
 
     @Override
-    public Object getItem(int position) {
-        return people.get(position);
+    public Object getItem(int i) {
+        return null;
     }
 
     @Override
-    public long getItemId(int position) {
-        return ((Person) getItem(position)).getId();
+    public long getItemId(int i) {
+        return 0;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int i, View convertView, ViewGroup parent) {
         View view = null;
 
         if (convertView != null) {
@@ -78,27 +73,15 @@ public class PeopleAdapter extends BaseAdapter {
         } else {
             LayoutInflater inflater = (LayoutInflater) getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.person_list_item,
+            view = inflater.inflate(android.R.layout.simple_list_item_1,
                     parent, false);
         }
 
+        CheckItem item = (CheckItem)getItem(i);
 
-        // map controls
-        TextView tvName = (TextView) view.findViewById(R.id.text_name);
-        TextView tvPhone = (TextView) view.findViewById(R.id.text_phone);
-        TextView tvEmail = (TextView) view.findViewById(R.id.text_email);
-
-        // set values
-        Person person = (Person) getItem(position);
-        tvName.setText(person.getName());
-        tvPhone.setText(person.getPhone());
-        tvEmail.setText(person.getEmail());
+        TextView tv = (TextView)view.findViewById(android.R.id.text1);
+        tv.setText(item.getDescription());
 
         return view;
-    }
-
-    public void updatePeople(ArrayList<Person> people) {
-        this.people = people;
-        notifyDataSetChanged();
     }
 }

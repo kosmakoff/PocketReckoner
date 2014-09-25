@@ -42,6 +42,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 
 public class PeopleFragment extends ListFragment
         implements OnItemClickListener {
@@ -63,6 +64,7 @@ public class PeopleFragment extends ListFragment
 
         try {
             personEditor = (PersonEditor) activity;
+
         } catch (ClassCastException castException) {
             // the activity cannot edit people. but we know it can ;)
         }
@@ -74,8 +76,7 @@ public class PeopleFragment extends ListFragment
 
         super.onActivityCreated(savedInstanceState);
         ArrayList<Person> people = peopleRepository.getPeople();
-        PeopleAdapter adapter = new PeopleAdapter(getActivity(), people);
-        setListAdapter(adapter);
+        setListAdapter(new PeopleAdapter(getActivity(), people));
 
         getListView().setOnItemClickListener(this);
         registerForContextMenu(getListView());
@@ -85,7 +86,18 @@ public class PeopleFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         peopleRepository = new PeopleRepository(getActivity());
-        return inflater.inflate(R.layout.fragment_people, null);
+
+        View peopleFragment = inflater.inflate(R.layout.fragment_people, null);
+
+        Button btnAddNewPerson = (Button) peopleFragment.findViewById(R.id.btn_add_person);
+        btnAddNewPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personEditor.startEditingPerson(0);
+            }
+        });
+
+        return peopleFragment;
     }
 
     @Override
@@ -131,6 +143,6 @@ public class PeopleFragment extends ListFragment
 
     private void refreshPeopleList() {
         ArrayList<Person> people = peopleRepository.getPeople();
-        ((PeopleAdapter)getListAdapter()).updatePeople(people);
+        ((PeopleAdapter) getListAdapter()).updatePeople(people);
     }
 }

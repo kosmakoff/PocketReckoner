@@ -22,10 +22,47 @@
  THE SOFTWARE.
  */
 
-package org.kosmakoff.pocketreckoner.infrastructure;
+package org.kosmakoff.pocketreckoner.data;
 
-public interface PersonEditor {
-    public void startEditingPerson(long personId);
-    public void deletePerson(long personId);
+public class Buyer {
+    private int id;
+    private int checkItemId;
+    private int personId;
+    private int part;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCheckItemId() {
+        return checkItemId;
+    }
+
+    public void setCheckItemId(int checkItemId) {
+        this.checkItemId = checkItemId;
+    }
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public int getPart() {
+        return part;
+    }
+
+    public void setPart(int part) {
+        this.part = part;
+    }
+
+    private Buyer() {
+        this.part = 1;
+    }
 }

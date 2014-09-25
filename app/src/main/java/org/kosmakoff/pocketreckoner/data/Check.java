@@ -24,10 +24,14 @@
 
 package org.kosmakoff.pocketreckoner.data;
 
-public class BillableItem {
+import java.util.Date;
+
+public class Check {
     private int id;
-    private int reckoningSessionId;
     private String description;
+
+    private long dateCreatedRaw;
+    private long dateModifiedRaw;
 
     public int getId() {
         return id;
@@ -45,16 +49,35 @@ public class BillableItem {
         this.description = description;
     }
 
-    public int getReckoningSessionId() {
-        return reckoningSessionId;
+    public long getDateCreatedRaw() {
+        return dateCreatedRaw;
     }
 
-    public void setReckoningSessionId(int reckoningSessionId) {
-        this.reckoningSessionId = reckoningSessionId;
+    public void setDateCreatedRaw(long dateCreatedRaw) {
+        this.dateCreatedRaw = dateCreatedRaw;
     }
 
-    public BillableItem(int id, String description) {
-        this.id = id;
-        this.description = description;
+    public long getDateModifiedRaw() {
+        return dateModifiedRaw;
+    }
+
+    public void setDateModifiedRaw(long dateModifiedRaw) {
+        this.dateModifiedRaw = dateModifiedRaw;
+    }
+
+    public Date getDateCreated() {
+        return new Date(dateCreatedRaw);
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        dateCreatedRaw = dateCreated.getTime();
+    }
+
+    public Date getDateModified() {
+        return new Date(dateModifiedRaw);
+    }
+
+    public void setDateModified(Date dateModified) {
+        dateModifiedRaw = dateModified.getTime();
     }
 }
