@@ -33,8 +33,7 @@ THE SOFTWARE.
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false"></ListView>
+        android:drawSelectorOnTop="false"/>
 
     <LinearLayout
         android:id="@id/android:empty"
@@ -51,9 +50,9 @@ THE SOFTWARE.
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
-            android:id="@+id/btn_add_order_item"
+            android:id="@+id/btn_add_check_item"
             style="@style/ButtonStyle"
-            android:text="@string/add_check_item" />
+            android:text="@string/add_item" />
     </LinearLayout>
 
 </RelativeLayout>

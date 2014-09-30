@@ -29,7 +29,7 @@ THE SOFTWARE.
     <string name="settings">Настройки</string>
     <string name="action_settings">Настройки</string>
     <string name="people">Люди</string>
-    <string name="checks">Сессии</string>
+    <string name="checks">Чеки</string>
     <string name="no_data">Нет данных</string>
     <string name="add_person">Добавить человека</string>
     <string name="edit_person">Редактировать человека</string>
@@ -60,4 +60,7 @@ THE SOFTWARE.
     <string name="no_things_added">Покупки не добавлены</string>
     <string name="add_thing">Добавить покупку</string>
     <string name="add">Добавить</string>
+    <string name="add_item">Добавить пункт</string>
+    <string name="payers">Плательщики</string>
+    <string name="save">Сохранить</string>
 </resources>

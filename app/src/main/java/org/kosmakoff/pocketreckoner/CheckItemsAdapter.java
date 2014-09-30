@@ -31,7 +31,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.kosmakoff.pocketreckoner.data.CheckItem;
+import org.kosmakoff.pocketreckoner.model.CheckItem;
 
 import java.util.ArrayList;
 

@@ -61,5 +61,8 @@ THE SOFTWARE.
     <string name="no_things_added">No things added</string>
     <string name="add_thing">Add thing</string>
     <string name="add">Add</string>
-    <string name="add_check_item">Add check item</string>
+    <string name="add_item">Add item</string>
+    <string name="save">Save</string>
+    <string name="buyer">Buyer</string>
+    <string name="payer">Payer</string>
 </resources>

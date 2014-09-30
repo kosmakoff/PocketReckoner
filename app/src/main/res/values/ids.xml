@@ -28,4 +28,5 @@ THE SOFTWARE.
     <item name="menu_item_add_person" type="id" />
     <item name="menu_item_add_check" type="id" />
     <item name="menu_item_delete" type="id" />
+    <item name="menu_item_add_check_item" type="id" />
 </resources>
